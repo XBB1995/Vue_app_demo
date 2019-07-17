@@ -1,12 +1,12 @@
 # 这是一个用Vue制作的项目
 
-##用传统方式命令行把修改过的代码上传
-<br>
-1. git add .<br>
-2. git commit -m "提交信息"<br>
+##①用传统方式命令行把修改过的代码上传
+
+1. git add .
+2. git commit -m "提交信息"
 3. git push
 
-#使用Webstorm上传
+#②使用Webstorm上传
 
 ##制作首页APP组件
 1. 完成Header区域，使用Mint-ui中的Header插件
