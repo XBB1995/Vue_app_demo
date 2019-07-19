@@ -10,7 +10,9 @@
         <div class="content" v-html="newsinfo.content"></div>
         <img :src="newsinfo.img_url" alt="某图片">
         <!--评论区-->
-        <comment-box :id="this.id"></comment-box>
+        <comment-box :id="id"
+                     :commentSrc="'http://120.77.181.41:3000/api/getnewscom?newsId=' + id"
+                     :submitSrc="'http://120.77.181.41:3000/api/addnewscom'"></comment-box>
 
     </div>
 </template>

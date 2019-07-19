@@ -9,6 +9,10 @@ import SearchContainer from './components/tabbar/SearchContainer.vue'
 import NewsList from './components/news/NewsList.vue'
 import NewsInfo from './components/news/NewsInfo.vue'
 import PhotoList from './components/photos/PhotoList.vue'
+import PhotoInfo from './components/photos/PhotoInfo.vue'
+import GoodsList from './components/goods/GoodsList.vue'
+import GoodsInfo from './components/goods/GoodsInfo.vue'
+
 
 //创建路由
 var router = new VueRouter({
@@ -22,6 +26,10 @@ var router = new VueRouter({
         {path: '/home/newslist', component: NewsList},
         {path: '/home/newslist/:id', component: NewsInfo},
         {path: '/home/photolist', component: PhotoList},
+        {path: '/home/photoinfo/:id', component: PhotoInfo},
+        {path: '/home/goodslist', component: GoodsList},
+        {path: '/home/goodsinfo/:id', component: GoodsInfo}
+
     ],
     linkActiveClass: 'mui-active'
     //覆盖默认的路由高亮的类

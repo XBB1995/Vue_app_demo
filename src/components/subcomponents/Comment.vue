@@ -7,7 +7,7 @@
         <div class="cmt-list">
             <div class="cmt-item" v-for="item in comments" :key="item.comId">
                 <div class="cmt-title">
-                    第{{item.comId}}楼&nbsp;&nbsp;用户：{{item.username}}&nbsp;&nbsp;评论时间：{{item.comDate|dateFormat}}
+                    第{{item.comId + 1}}楼&nbsp;&nbsp;用户：{{item.username}}&nbsp;&nbsp;评论时间：{{item.comDate|dateFormat}}
                 </div>
                 <div class="cmt-body">
                     {{item.content === ''?'此处应有评论':item.content}}
@@ -32,23 +32,24 @@
                 username: 'XBB'
             }
         },
-        props: ['id'],
+        props: ['id', 'commentSrc', 'submitSrc'],
+        //props中使用this.来调用
         created() {
             this.getComments()
         },
         methods: {
             getComments() {
                 axios
-                    .get('http://120.77.181.41:3000/api/getnewscom', {
+                    .get(this.commentSrc, {
                         params: {
-                            newsId: this.id,
+                            // newsId: this.id,
                             pageIdx: this.pageIndex
                         }
                     })
                     .then(res => {
                         // console.log(res);
                         if (res.data.status === -1) {
-                            Toast('评论加载完毕！')
+                            return Toast('评论加载完毕！')
                         } else {
                             this.comments = this.comments.concat(res.data.comments)
                         }
@@ -65,7 +66,7 @@
                     return Toast("请输入评论内容~~")
                 }
                 axios
-                    .post('http://120.77.181.41:3000/api/addnewscom', {
+                    .post(this.submitSrc, {
                         newsId: this.id,
                         username: this.username,
                         content: this.msg.trim()

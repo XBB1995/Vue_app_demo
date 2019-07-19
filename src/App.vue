@@ -1,7 +1,12 @@
 <template>
     <div class="app-container">
         <!--头部-->
-        <mt-header fixed title="Vue APP demo"></mt-header>
+        <mt-header fixed title="Vue APP demo">
+            <div @click="$router.back()" slot="left">
+                <mt-button icon="back">返回</mt-button>
+            </div>
+            <mt-button icon="more" slot="right"></mt-button>
+        </mt-header>
 
         <!--内容-->
         <transition>
@@ -43,6 +48,10 @@
         padding-top: 40px;
         padding-bottom: 50px;
         overflow-x: hidden;
+    }
+
+    .mint-header {
+        z-index: 99;
     }
 
     .v-enter {
