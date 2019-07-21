@@ -1,5 +1,12 @@
 <template>
     <div class="goodsinfo-container">
+        <!--半场动画需要用到钩子函数-->
+        <transition
+                @before-enter="beforeEnter"
+                @enter="enter"
+                @after-enter="afterEnter">
+            <div class="ball" v-show="ballflag" ref="ball"></div>
+        </transition>
         <!--商品轮播图区-->
         <div class="mui-card">
             <div class="mui-card-content">
@@ -20,11 +27,12 @@
                         销售价：<span class="now_price">￥{{goodsinfo.newPrice}}</span>
                     </p>
                     <p class="sell">购买数量：
-                        <numbox></numbox>
+                        <numbox @getCount="getSelectedCount"
+                                :max="goodsinfo.quantity"></numbox>
                     </p>
                     <p>
                         <mt-button type="primary" size="small">立刻购买</mt-button>
-                        <mt-button type="danger" size="small">加入购物车</mt-button>
+                        <mt-button type="danger" size="small" @click="addToShopCar">加入购物车</mt-button>
                     </p>
                 </div>
             </div>
@@ -40,8 +48,12 @@
                 </div>
             </div>
             <div class="mui-card-footer">
-                <mt-button type="primary" size="large" plain>图文介绍</mt-button>
-                <mt-button type="danger" size="large" plain>商品评论</mt-button>
+                <mt-button type="primary" size="large"
+                           plain @click="goDesc(id)">图文介绍
+                </mt-button>
+                <mt-button type="danger" size="large"
+                           plain @click="goComment(id)">商品评论
+                </mt-button>
             </div>
         </div>
     </div>
@@ -58,7 +70,9 @@
             return {
                 id: this.$route.params.id,
                 swipe: [],
-                goodsinfo: {}
+                goodsinfo: {},
+                ballflag: false, // 控制小球隐藏和显示,
+                selectedCount: 1
             }
         },
         created() {
@@ -73,7 +87,6 @@
                         }
                     })
                     .then(res => {
-                        console.log(res);
                         if (res.data.status === 1) {
                             this.swipe = res.data.god.phos
                             this.goodsinfo = res.data.god
@@ -82,6 +95,51 @@
                     .catch(err => {
                         console.log(err.message);
                     })
+            },
+            goDesc(id) {
+                //点击使用编程式导航跳转到图文介绍
+                this.$router.push({
+                    name: 'goodsdesc',
+                    params: {id}
+                })
+
+            },
+            goComment(id) {
+                //点击使用编程式导航跳转到评论
+                this.$router.push({
+                    name: 'goodscomment',
+                    params: {id}
+                })
+            },
+            addToShopCar() {
+                this.ballflag = !this.ballflag
+            },
+            beforeEnter(el) {
+                el.style.transform = "translate(0, 0)"
+            },
+            // 小球动画优化
+            // 位移的位置不能写死 分辨率改变和滚动条滚动后出现错误
+            // 动态获取：徽标和小球的距离差
+            // domObj.getBoundingClientReac() 返回矩阵对象 ltrb
+            enter(el, done) {
+                el.offsetWidth
+                const ballPosition = this.$refs.ball.getBoundingClientRect()
+                // 偶尔用一下dom 可以接受
+                const badgePosition = document
+                    .getElementById("badge")
+                    .getBoundingClientRect()
+                const xDist = badgePosition.left - ballPosition.left
+                const yDist = badgePosition.top - ballPosition.top
+                // 模板
+                el.style.transform = `translate(${xDist}px, ${yDist}px)`
+                el.style.transition = "all 0.5s cubic-bezier(.4,-0.3,1,.68)"
+                done()
+            },
+            afterEnter(el) {
+                this.ballflag = !this.ballflag
+            },
+            getSelectedCount(count) {
+                this.selectedCount = count
             }
         },
         components: {
@@ -95,6 +153,16 @@
     .goodsinfo-container {
         background-color: #eee;
         overflow: hidden;
+        .ball {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: red;
+            position: absolute;
+            z-index: 99;
+            top: 444px;
+            left: 152px;
+        }
         .sell {
             color: #000;
         }

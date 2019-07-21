@@ -25,7 +25,8 @@
                 <span class="mui-tab-label">会员</span>
             </router-link>
             <router-link class="mui-tab-item-xbb" to="/shopcar">
-                <span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span class="mui-badge">0</span></span>
+                <span class="mui-icon mui-icon-extra mui-icon-extra-cart"><span id='badge'
+                                                                                class="mui-badge">0</span></span>
                 <span class="mui-tab-label">购物车</span>
             </router-link>
             <router-link class="mui-tab-item-xbb" to="/search">
@@ -58,6 +59,7 @@
         opacity: 0;
         transform: translateX(100%);
     }
+
     .v-leave-to {
         opacity: 0;
         transform: translateX(-100%);
@@ -94,7 +96,7 @@
         padding-bottom: 0;
     }
 
-    .mui-bar-tab .mui-tab-item-xbb .mui-icon~.mui-tab-label {
+    .mui-bar-tab .mui-tab-item-xbb .mui-icon ~ .mui-tab-label {
         font-size: 11px;
         display: block;
         overflow: hidden;

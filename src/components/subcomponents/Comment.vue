@@ -62,19 +62,34 @@
                 this.getComments()
             },
             postComment() {
-                if(this.msg.trim().length === 0) {
+                if (this.msg.trim().length === 0) {
                     return Toast("请输入评论内容~~")
                 }
-                axios
-                    .post(this.submitSrc, {
+                //使用postObj传递post附带的信息
+                var lenS = this.submitSrc.length - 6
+                var cnt = this.submitSrc.substring(lenS, lenS + 3)
+                var postObj = {}
+                if (cnt === "god") {
+                    postObj = {
+                        godId: this.id,
+                        username: this.username,
+                        content: this.msg.trim()
+                    }
+                } else if (cnt === "news") {
+                    postObj = {
                         newsId: this.id,
                         username: this.username,
                         content: this.msg.trim()
-                    })
+                    }
+                }
+                //ajax实现
+                axios
+                    .post(this.submitSrc, postObj)
                     .then(res => {
-                        // console.log(res);
+                        // console.log(res)
                         // if (res.data.status === 1) {
                         let cmt = {
+                            comId: 0,
                             username: this.username,
                             add_time: Date.now(),
                             content: this.msg.trim()
