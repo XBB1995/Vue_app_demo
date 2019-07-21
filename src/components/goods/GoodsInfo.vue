@@ -17,22 +17,22 @@
         </div>
         <!--商品购买区-->
         <div class="mui-card">
-            <div class="mui-card-header"> {{goodsinfo.name}}</div>
+            <div class="mui-card-header"> {{goodsinfo.title}}</div>
             <div class="mui-card-content">
                 <div class="mui-card-content-inner">
-                    <p class="intro"><span class="la">自营</span>{{goodsinfo.intro}}</p>
+                    <p class="intro"><span class="la">自营</span></p>
                     <p class="price">
                         市场价：
-                        <del>￥{{goodsinfo.oldPrice}}</del>&nbsp;&nbsp;
-                        销售价：<span class="now_price">￥{{goodsinfo.newPrice}}</span>
+                        <del>￥{{goodsinfo.market_price}}</del>&nbsp;&nbsp;
+                        销售价：<span class="now_price">￥{{goodsinfo.sell_price}}</span>
                     </p>
                     <p class="sell">购买数量：
                         <numbox @getCount="getSelectedCount"
-                                :max="goodsinfo.quantity"></numbox>
+                                :max="goodsinfo.stock_quantity"></numbox>
                     </p>
                     <p>
                         <mt-button type="primary" size="small">立刻购买</mt-button>
-                        <mt-button type="danger" size="small" @click="addToShopCar">加入购物车</mt-button>
+                        <mt-button type="danger" size="small" @click="addToShopCart">加入购物车</mt-button>
                     </p>
                 </div>
             </div>
@@ -42,9 +42,9 @@
             <div class="mui-card-header">商品参数</div>
             <div class="mui-card-content">
                 <div class="mui-card-content-inner">
-                    <p>商品货号：{{goodsinfo.godNum}}</p>
-                    <p>库存情况：{{goodsinfo.quantity}}</p>
-                    <p>上架时间：{{goodsinfo.addDate|dateFormat}}</p>
+                    <p>商品货号：{{goodsinfo.goods_no}}</p>
+                    <p>库存情况：{{goodsinfo.stock_quantity}}</p>
+                    <p>上架时间：{{goodsinfo.add_time|dateFormat}}</p>
                 </div>
             </div>
             <div class="mui-card-footer">
@@ -77,19 +77,28 @@
         },
         created() {
             this.getswipe()
+            this.getinfo()
         },
         methods: {
             getswipe() {
                 axios
-                    .get('http://120.77.181.41:3000/api/getgoddetail', {
-                        params: {
-                            godId: this.id
+                    .get('http://www.liulongbin.top:3005/api/getthumimages/' + this.id)
+                    .then(res => {
+                        if (res.data.status === 0) {
+                            this.swipe = res.data.message
                         }
                     })
+                    .catch(err => {
+                        console.log(err.message);
+                    })
+            },
+            getinfo() {
+                axios
+                    .get('http://www.liulongbin.top:3005/api/goods/getinfo/' + this.id)
                     .then(res => {
-                        if (res.data.status === 1) {
-                            this.swipe = res.data.god.phos
-                            this.goodsinfo = res.data.god
+                        // console.log(res);
+                        if (res.data.status === 0) {
+                            this.goodsinfo = res.data.message[0]
                         }
                     })
                     .catch(err => {
@@ -111,8 +120,17 @@
                     params: {id}
                 })
             },
-            addToShopCar() {
+            addToShopCart() {
                 this.ballflag = !this.ballflag
+                // 拼接出一个store中的cart数组中的对象
+                let info = {
+                    id: this.id,
+                    count: this.selectedCount,
+                    price: this.goodsinfo.newPrice,
+                    selected: true
+                }
+                // 通过this.$store.commit("func", arg1调用
+                this.$store.commit("addToCart", info)
             },
             beforeEnter(el) {
                 el.style.transform = "translate(0, 0)"

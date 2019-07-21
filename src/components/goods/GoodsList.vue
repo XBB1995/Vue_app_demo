@@ -19,17 +19,17 @@
 
         <!--换一种方式实现跳转-->
         <div class="goods-item" v-for="item in goodslist"
-             :key="item.godId" @click="goDetail(item.godId)">
-            <img :src="item.phos" alt="">
-            <h3 class="title">{{item.intro}}</h3>
+             :key="item.id" @click="goDetail(item.id)">
+            <img :src="item.img_url" alt="">
+            <h3 class="title">{{item.title}}</h3>
             <div class="goods-info">
                 <p class="price">
-                    <span class="now">￥{{item.newPrice}}</span>
-                    <span class="old">￥{{item.oldPrice}}</span>
+                    <span class="now">￥{{item.sell_price}}</span>
+                    <span class="old">￥{{item.market_price}}</span>
                 </p>
                 <p class="sell">
                     <span>热卖中</span>
-                    <span>剩余{{item.quantity}}</span>
+                    <span>剩余{{item.stock_quantity}}</span>
                 </p>
             </div>
         </div>
@@ -59,16 +59,17 @@
         methods: {
             getGoodsList() {
                 axios
-                    .get('http://120.77.181.41:3000/api/getgod', {
+                    .get('http://www.liulongbin.top:3005/api/getgoods', {
                         params: {
-                            pageIdx: this.pageIdx
+                            pageindex: this.pageIdx
                         }
                     })
                     .then(res => {
                         // console.log(res);
-                        if (res.data.status === 1) {
-                            this.goodslist = this.goodslist.concat(res.data.gods)
-                        } else if (res.data.status === -1) {
+                        if (res.data.status === 0) {
+                            this.goodslist = this.goodslist.concat(res.data.message)
+                        }
+                        if (res.data.message.length <= 0) {
                             return Toast('商品全部加载完毕~~')
                         }
                     })

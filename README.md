@@ -119,3 +119,10 @@
  1. 注意使用属性绑定的方式传递
  2. 上限由promise异步获取 需要动态获取 使用watch 属性监听
  3. 使用js方法修改 查看官方文档
+ 
+ ## 引入vuex全局数据仓储 
+ 1. this.$store.cart 调用值
+ 2. this.$store.commit("func", arg)
+  + 只能传一个参数 但是可以是 数组 或对象
+ 3. this.$store.getters.func
+  + 增加一层包装 只能提供数据不能修改数据

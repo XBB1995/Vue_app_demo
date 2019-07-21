@@ -1,8 +1,8 @@
 <template>
     <div class="goodsdesc-container">
-        <h3>{{info.name}}</h3>
+        <h3>{{info.title}}</h3>
         <hr>
-        <div class="content" v-html="info.intro"></div>
+        <div class="content" v-html="info.content"></div>
     </div>
 </template>
 
@@ -23,14 +23,11 @@
         methods: {
             getGoodsDesc() {
                 axios
-                    .get("http://120.77.181.41:3000/api/getgoddetail", {
-                        params: {
-                            godId: this.id
-                        }
-                    })
+                    .get("http://www.liulongbin.top:3005/api/goods/getdesc/" + this.id)
                     .then(res => {
-                        if (res.data.status === 1) {
-                            this.info = res.data.god
+                        // console.log(res);
+                        if (res.data.status === 0) {
+                            this.info = res.data.message[0]
                         }
                     })
                     .catch(err => {
