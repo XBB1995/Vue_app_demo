@@ -4,7 +4,8 @@
             <div class="mui-card" v-for="(item, i) in goodslist" :key="item.id">
                 <div class="mui-card-content">
                     <div class="mui-card-content-inner">
-                        <mt-switch></mt-switch>
+                        <mt-switch @change="selectedChanged(item.id, item.selected)"
+                                   v-model="item.selected"></mt-switch>
                         <img :src="item.thumb_path" alt="">
                         <div class="info">
                             <h3>{{item.title}}</h3>
@@ -19,11 +20,16 @@
                 </div>
             </div>
         </div>
-
+        <!--结算框-->
         <div class="mui-card">
             <div class="mui-card-content">
-                <div class="mui-card-content-inner">
-                    这是一个最简单的卡片视图控件；卡片视图常用来显示完整独立的一段信息，比如一篇文章的预览图、作者信息、点赞数量等
+                <div class="mui-card-content-inner settlement">
+                    <div class="left">
+                        <p>总计（不含运费）</p>
+                        <p>已勾选<span class="red">{{$store.getters.getGoodsCountAndAmount.count}}</span>件，
+                            总价￥<span class="red">{{$store.getters.getGoodsCountAndAmount.amount}}</span></p>
+                    </div>
+                    <mt-button type="danger">去结算</mt-button>
                 </div>
             </div>
         </div>
@@ -55,9 +61,11 @@
             getGoodsList() {
                 let idArr = []
                 let countObj = {}
+                let selectedObj = {}
                 this.$store.state.cart.forEach(item => {
                     idArr.push(item.id)
                     countObj[item.id] = item.count
+                    selectedObj[item.id] = item.selected
                 })
                 if (idArr.length <= 0) return
                 axios
@@ -66,9 +74,13 @@
                     .then(res => {
                         res.data.message.forEach(item => {
                             item.cou = countObj[item.id]
+                            item.selected = selectedObj[item.id]
                         })
                         this.goodslist = res.data.message
                     })
+            },
+            selectedChanged(id, selected) {
+                this.$store.commit("updateGoodsSelected", {id, selected})
             }
         }
     }
@@ -110,6 +122,16 @@
                     }
 
                 }
+            }
+        }
+        .settlement {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .red {
+                color: red;
+                font-weight: bold;
+                font-size: 16px;
             }
         }
     }

@@ -126,7 +126,7 @@
                 let info = {
                     id: this.id,
                     count: this.selectedCount,
-                    price: this.goodsinfo.newPrice,
+                    price: this.goodsinfo.sell_price,
                     selected: true
                 }
                 // 通过this.$store.commit("func", arg1调用

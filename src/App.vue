@@ -2,7 +2,7 @@
     <div class="app-container">
         <!--头部-->
         <mt-header fixed title="Vue APP demo">
-            <div @click="$router.back()" slot="left">
+            <div @click="$router.back()" slot="left" v-show="flag">
                 <mt-button icon="back">返回</mt-button>
             </div>
             <mt-button icon="more" slot="right"></mt-button>
@@ -39,7 +39,25 @@
 
 <script>
     export default {
-        name: "App"
+        name: "App",
+        data() {
+            return {
+                flag: false
+            }
+        },
+        created() {
+            // 判断当前网页是否是首页
+            this.flag = this.$route.path === '/home' ?false:true
+        },
+        watch: {
+            '$route.path': function (newVal) {
+                if (newVal === '/home') {
+                    this.flag = false
+                } else {
+                    this.flag = true
+                }
+            }
+        }
     }
 </script>
 

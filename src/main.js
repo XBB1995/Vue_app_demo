@@ -63,6 +63,15 @@ var store = new Vuex.Store({
                 }
             })
             localStorage.setItem('cart', JSON.stringify(state.cart))
+        },
+        updateGoodsSelected(state, info) {
+            state.cart.some(item => {
+                if (item.id == info.id) {
+                    item.selected = info.selected
+                    return true
+                }
+            })
+            localStorage.setItem('cart', JSON.stringify(state.cart))
         }
     },
     getters: {
@@ -76,11 +85,24 @@ var store = new Vuex.Store({
         getAllCount(state) {
             let ac = 0
             state.cart.forEach(item => {
-                if (item.selected) {
+                if (true) {
                     ac += item.count
                 }
             })
             return ac
+        },
+        getGoodsCountAndAmount(state) {
+            let obj = {
+                count: 0,
+                amount: 0
+            }
+            state.cart.forEach(item => {
+                if (item.selected) {
+                    obj.count += item.count
+                    obj.amount += item.price * item.count
+                }
+            })
+            return obj
         }
     }
 })
