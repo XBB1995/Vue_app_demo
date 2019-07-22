@@ -110,7 +110,7 @@
                     justify-content: space-between;
                     .goods-info {
                         display: flex;
-                        justify-content: space-between;
+                        /*justify-content: space-between;*/
                         align-items: center;
                         .price {
                             color: red;
