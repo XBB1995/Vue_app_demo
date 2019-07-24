@@ -1,5 +1,9 @@
 # 这是一个用Vue制作的项目
 
+## 插槽
+1. 从元素中接收传入的信息 
+2. 并加入到slot对应的位置上 再加以显示
+
 ## 数据接口api 
  + 特别感谢 虽然最近服务器出错了 https://github.com/arm-liang/vue-mobbile-server/blob/master/API%E6%8E%A5%E5%8F%A3.md
  + 特别感谢 http://www.liulongbin.top:3005 老师提供的新接口
