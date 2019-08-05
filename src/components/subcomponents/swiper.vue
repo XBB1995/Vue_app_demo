@@ -5,8 +5,8 @@
         <slot></slot>
          <!--插槽的作用就是 从元素中接收传入的信息 并加入到slot对应的位置上 再加以显示-->
         <mt-swipe :auto="2000">
-            <mt-swipe-item v-for="item in swiperlist" :key="item.src">
-                <img :src="item.src" alt="" :class="{'full': isfull}">
+            <mt-swipe-item v-for="item in swiperlist" :key="item.id">
+                <img :src="item.img" alt="" :class="{'full': isfull}">
             </mt-swipe-item>
         </mt-swipe>
     </div>

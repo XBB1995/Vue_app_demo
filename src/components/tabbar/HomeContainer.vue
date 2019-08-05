@@ -69,22 +69,25 @@
         },
         methods: {
             getSwipeitem() {
-                axios.get('http://120.77.181.41:3000/api/getcover')
+                axios.get('http://www.liulongbin.top:3005/api/getlunbo')
                     .then(res => {
-                        // console.log(res);
+                        if (res.status == 200) {
+                            // console.log(res);
+                            this.swipeitemList = res.data.message
+                        }
                         // if (res.data.status === 1) {
                         //启用立即执行函数给图片附上id
-                        var len = res.data.imgs.length
-                        this.swipeitemList = function (len) {
-                            var sl = []
-                            for (let i = 0; i < len; i++) {
-                                sl.push({
-                                    id: i,
-                                    img: res.data.imgs[i]
-                                })
-                            }
-                            return sl
-                        }(len)
+                        // var len = res.data.imgs.length
+                        // this.swipeitemList = function (len) {
+                        //     var sl = []
+                        //     for (let i = 0; i < len; i++) {
+                        //         sl.push({
+                        //             id: i,
+                        //             img: res.data.imgs[i]
+                        //         })
+                        //     }
+                        //     return sl
+                        // }(len)
                         // this.swipeitemList = {
                         //     id: 1, img: res.data.imgs
                         // }

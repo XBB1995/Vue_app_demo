@@ -2,6 +2,9 @@ import Vue from 'vue'
 // 导入Vuex
 import Vuex from 'vuex'
 
+// import VueLazyload from 'vue-lazyload'
+// // Vue.use(VueLazyload)
+
 //导入路由模块
 import VueRouter from 'vue-router'
 //安装路由

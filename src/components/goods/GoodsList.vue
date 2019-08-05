@@ -20,7 +20,7 @@
         <!--换一种方式实现跳转-->
         <div class="goods-item" v-for="item in goodslist"
              :key="item.id" @click="goDetail(item.id)">
-            <img :src="item.img_url" alt="">
+            <img v-lazy="item.img_url">
             <h3 class="title">{{item.title}}</h3>
             <div class="goods-info">
                 <p class="price">

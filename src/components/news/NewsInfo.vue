@@ -3,12 +3,12 @@
         <h3 class="title">{{newsinfo.title}}</h3>
         <p class="subtitle">
             <span>发布时间：{{newsinfo.add_time | dateFormat}}</span>
-            <span>点击次数：{{newsinfo.clicked}}</span>
+            <span>点击次数：{{newsinfo.click}}</span>
         </p>
         <hr>
         <!--内容区-->
         <div class="content" v-html="newsinfo.content"></div>
-        <img :src="newsinfo.img_url" alt="某图片">
+        <!--<img :src="newsinfo.img_url" alt="某图片">-->
         <!--评论区-->
         <comment-box :id="id"
                      :commentSrc="'http://120.77.181.41:3000/api/getnewscom?newsId=' + id"
@@ -36,17 +36,19 @@
         methods: {
             getNewsInfo() {
                 axios
-                    .get('http://120.77.181.41:3000/api/getnewsdetail', {
-                        params: {
-                            newsId: this.id
-                        }
-                    })
+                    // .get('http://www.liulongbin.top:3005/api/getnew', {
+                    //     params: {
+                    //         newid: this.id
+                    //     }
+                    // })
+                    .get('http://www.liulongbin.top:3005/api/getnew/' + this.id)
                     .then(res => {
+                        // console.log(res);
                         if (res.data.status === -1) {
                             Toast('没有找到该新闻~~')
                             return
                         }
-                        this.newsinfo = res.data.news
+                        this.newsinfo = res.data.message[0]
                     }).catch(function (err) {
                     console.log(err.message)
                 })
