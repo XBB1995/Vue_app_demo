@@ -6,7 +6,7 @@
 
 ## 数据接口api 
  + 特别感谢 虽然最近服务器出错了 https://github.com/arm-liang/vue-mobbile-server/blob/master/API%E6%8E%A5%E5%8F%A3.md
- + 特别感谢 http://www.liulongbin.top:3005 老师提供的新接口
+ + 特别感谢 http://www.liulongbin.top:3005 提供的新接口
  
 ## ①用传统方式命令行把修改过的代码上传
 1. git add .
